@@ -65,4 +65,22 @@ public class UserDao implements GenericDao<User, Long> {
             throw new DbException("Exception while getting user with id = " + id);
         }
     }
+
+    public User getByPhoneNumber(long phoneNumber) throws DbException {
+        try {
+            return entityManager.find(User.class, phoneNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DbException("Exception while getting user with phone number = " + phoneNumber);
+        }
+    }
+
+    public User getByName(String name) {
+        try {
+            return entityManager.find(User.class, name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

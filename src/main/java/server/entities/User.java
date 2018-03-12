@@ -13,9 +13,7 @@ public class User {
     @Column
     private String name;
     @Column
-    private String secondName;
-    @Column
-    private long phoneNumber;
+    private String phoneNumber;
 
     public User() {
 
@@ -33,25 +31,17 @@ public class User {
         return id;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, secondName, phoneNumber);
+        return Objects.hash(id, name, phoneNumber);
     }
 
     @Override
@@ -61,8 +51,7 @@ public class User {
         User user = (User) obj;
         return id == user.id &&
                 Objects.equals(name, user.name) &&
-                Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(secondName, user.secondName);
+                Objects.equals(phoneNumber, user.phoneNumber);
     }
 
     @Override
@@ -70,7 +59,6 @@ public class User {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", secondName='").append(secondName).append('\'');
         sb.append(", phoneNumber='").append(phoneNumber).append('\'');
         sb.append('}');
         return sb.toString();

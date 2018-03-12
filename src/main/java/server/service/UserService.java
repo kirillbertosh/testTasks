@@ -30,7 +30,6 @@ public class UserService {
             User user = userDao.getById(id);
             user.setName(updateUser.getName());
             user.setPhoneNumber(updateUser.getPhoneNumber());
-            user.setSecondName(updateUser.getSecondName());
             return userDao.update(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,6 +67,24 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new DbException("Exception in getting user by id transaction");
+        }
+    }
+
+    public User getByPhoneNumber(long phoneNumber) throws DbException {
+        try {
+            return userDao.getByPhoneNumber(phoneNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DbException("Exception in getting user by phone number transaction");
+        }
+    }
+
+    public User getByName(String name) {
+        try {
+            return userDao.getByName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

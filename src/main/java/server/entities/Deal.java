@@ -18,8 +18,6 @@ public class Deal {
     private double sum;
     @Column
     private long sellerId;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List customersId = new ArrayList<>();
 
     public Deal() {
 
@@ -59,14 +57,6 @@ public class Deal {
 
     public void setSellerId(long sellerId) {
         this.sellerId = sellerId;
-    }
-
-    public List getCustomersId() {
-        return customersId;
-    }
-
-    public void addCustomerId(long id) {
-        customersId.add(id);
     }
 
     @Override
