@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8088
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/testdb
@@ -9,3 +9,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
