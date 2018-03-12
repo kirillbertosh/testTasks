@@ -8,22 +8,32 @@
     <script src="js/scripts.js"></script>
 </head>
 <body>
-    <form id="test" >
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input class="form-control" type="text" name="name" id="name" />
-        </div>
-        <div class="form-group">
-            <label for="name">Phone number</label>
-            <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" />
-        </div>
-        <p>
-            <input type="submit" value="Send" class="btn btn-primary btn-block" />
-        </p>
-    </form>
-    <pre id="output"></pre>
-    <script type="text/javascript">
-        sendLoginData();
-    </script>
+    <header class="primary-header container group">
+        <h1 class="logo">
+            <a href="index.html">This is test garant service</a>
+        </h1>
+    </header>
+    <section class="row">
+        <form class="test">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" />
+            </div>
+            <div class="form-group">
+                <label for="name">Phone number</label>
+                <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" />
+            </div>
+            <p>
+                <input type="submit" value="Sign in" class="btn btn-primary btn-block" onclick='location.href="privateRoom.html"'/>
+            </p>
+        </form>
+        <pre id="output"></pre>
+        <script type="text/javascript">
+            sendLoginData();
+        </script>
+    </section>
+    <footer class="primary-footer container group">
+        <small>&copy; Test garant service</small>
+    </footer>
 </body>
 </html>

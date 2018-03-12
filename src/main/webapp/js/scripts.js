@@ -1,3 +1,5 @@
+var userName;
+
 function sendLoginData() {
     function toJSONString( form ) {
         var obj = {};
@@ -5,13 +7,13 @@ function sendLoginData() {
         for( var i = 0; i < elements.length; ++i ) {
             var element = elements[i];
             var name = element.name;
+            userName = name;
             var value = element.value;
 
             if( name ) {
                 obj[ name ] = value;
             }
         }
-        console.log(obj);
         return JSON.stringify( obj );
     }
 
@@ -22,7 +24,7 @@ function sendLoginData() {
             e.preventDefault();
             var json = toJSONString( this );
             output.innerHTML = json;
-            console.log(json);
+            userName = json;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'http://localhost:8081/api/v1/users', true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -32,3 +34,7 @@ function sendLoginData() {
 
     });
 };
+
+function getCurrentUserName() {
+    return userName;
+}
