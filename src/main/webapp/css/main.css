@@ -132,4 +132,27 @@ a {
     background: #fff;
     padding: 66px 0 44px 0;
     width: 100%;
+
+}
+
+.new-deal, .join-deal {
+    text-align: center;
+    display: block;
+    padding-top: 15px;
+}
+
+.form-group {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    display: block;
+    vertical-align: top;
+}
+
+.form-control {
+    margin-left: 15px;
+}
+
+.join-btn {
+    margin-left: 50px;
 }
