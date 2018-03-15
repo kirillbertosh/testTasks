@@ -77,7 +77,10 @@ public class UserDao implements GenericDao<User, Long> {
 
     public User getByName(String name) {
         try {
-            return entityManager.find(User.class, name);
+            return (User)entityManager.createQuery("from User c where c.name=:name")
+                    .setParameter("name", name)
+                    .getResultList()
+                    .get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

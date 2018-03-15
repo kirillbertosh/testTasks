@@ -37,6 +37,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users/name/{name}")
+    public ResponseEntity getByName(@PathVariable String name) throws DbException {
+        User user = userService.getByName(name);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/users")
     public ResponseEntity<User> create(@RequestBody User user) throws DbException {
         user = userService.create(user);

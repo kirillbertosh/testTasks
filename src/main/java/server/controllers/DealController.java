@@ -2,6 +2,7 @@ package server.controllers;
 
 import server.dbException.DbException;
 import server.entities.Deal;
+import server.entities.User;
 import server.service.DealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,16 @@ public class DealController {
     public ResponseEntity<Deal> create(@RequestBody Deal deal) throws DbException {
         deal = service.create(deal);
         return new ResponseEntity<>(deal, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/deals/{id}/{user}")
+    public ResponseEntity addUserToDeal(@PathVariable Long id, @RequestBody User user) throws DbException {
+        Deal deal = service.addUserToDeal(id, user);
+        if (deal != null) {
+            return new ResponseEntity<>(deal, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/deals/{id}")

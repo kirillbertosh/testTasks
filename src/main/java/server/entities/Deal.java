@@ -16,8 +16,15 @@ public class Deal {
     private String name;
     @Column
     private double sum;
-    @Column
-    private long sellerId;
+    @OneToOne
+    private User seller;
+    @OneToMany
+    @JoinTable(name = "deal_user", joinColumns
+            = @JoinColumn(name = "deal_id",
+            referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id"))
+    private List<User> customers;
 
     public Deal() {
 
@@ -51,12 +58,20 @@ public class Deal {
         this.sum = sum;
     }
 
-    public long getSellerId() {
-        return sellerId;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellerId(long sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public List<User> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<User> customers) {
+        this.customers = customers;
     }
 
     @Override
@@ -66,7 +81,8 @@ public class Deal {
         sb.append(", date='").append(date).append('\'');
         sb.append(", sum='").append(sum).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", sellerId='").append(sellerId).append('\'');
+        sb.append(", seller='").append(seller).append('\'');
+        sb.append(", customers='").append(customers).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -80,11 +96,12 @@ public class Deal {
                 Objects.equals(name, deal.name) &&
                 Objects.equals(date, deal.date) &&
                 Objects.equals(sum, deal.sum) &&
-                Objects.equals(sellerId, deal.sellerId);
+                Objects.equals(customers, deal.customers) &&
+                Objects.equals(seller, deal.seller);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, name, sum, sellerId);
+        return Objects.hash(id, date, name, sum, seller, customers);
     }
 }

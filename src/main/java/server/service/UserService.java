@@ -28,8 +28,12 @@ public class UserService {
     public User update(long id, User updateUser) throws DbException {
         try {
             User user = userDao.getById(id);
-            user.setName(updateUser.getName());
-            user.setPhoneNumber(updateUser.getPhoneNumber());
+            if (updateUser.getPhoneNumber() != null) {
+                user.setPhoneNumber(updateUser.getPhoneNumber());
+            }
+            if (updateUser.getName() != null) {
+                user.setName(updateUser.getName());
+            }
             return userDao.update(user);
         } catch (Exception e) {
             e.printStackTrace();
