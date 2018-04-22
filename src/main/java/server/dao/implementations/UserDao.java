@@ -66,12 +66,15 @@ public class UserDao implements GenericDao<User, Long> {
         }
     }
 
-    public User getByPhoneNumber(long phoneNumber) throws DbException {
+    public User getByEmail(String email) throws DbException {
         try {
-            return entityManager.find(User.class, phoneNumber);
+            return (User)entityManager.createQuery("select u from User u where u.email=:email")
+                    .setParameter("email", email)
+                    .getResultList()
+                    .get(0);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DbException("Exception while getting user with phone number = " + phoneNumber);
+            throw new DbException("Exception while getting user with email = " + email);
         }
     }
 

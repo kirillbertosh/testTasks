@@ -26,11 +26,11 @@ public class DealService {
             deal.setCustomers(new ArrayList<>());
             if (list != null) {
                 for (User user : list) {
-                    deal.getCustomers().add(userDao.getByName(user.getName()));
+                    deal.getCustomers().add(userDao.getByName(user.getEmail()));
                 }
             }
             if (deal.getSeller() != null) {
-                deal.setSeller(userDao.getByName(deal.getSeller().getName()));
+                deal.setSeller(userDao.getByName(deal.getSeller().getEmail()));
             }
             return dealDao.create(deal);
         } catch (Exception e) {
@@ -57,8 +57,8 @@ public class DealService {
         try {
             Deal deal = dealDao.getById(id);
             if (deal != null) {
-                if (user.getName() != null) {
-                    deal.getCustomers().add(userDao.getByName(user.getName()));
+                if (user.getEmail() != null) {
+                    deal.getCustomers().add(userDao.getByName(user.getEmail()));
                     return deal;
                 } else {
                     return deal;

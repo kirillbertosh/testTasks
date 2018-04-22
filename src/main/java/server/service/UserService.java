@@ -1,22 +1,27 @@
 package server.service;
 
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import server.dao.implementations.UserDao;
 import server.dbException.DbException;
-import server.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static java.util.Collections.emptyList;
+
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
 
-    public User create(User user) throws DbException {
+    public server.entities.User create(server.entities.User user) throws DbException {
         try {
             return userDao.create(user);
         } catch (Exception e) {
@@ -25,14 +30,20 @@ public class UserService {
         }
     }
 
-    public User update(long id, User updateUser) throws DbException {
+    public server.entities.User update(long id, server.entities.User updateUser) throws DbException {
         try {
-            User user = userDao.getById(id);
-            if (updateUser.getPhoneNumber() != null) {
-                user.setPhoneNumber(updateUser.getPhoneNumber());
+            server.entities.User user = userDao.getById(id);
+            if (updateUser.getPassword() != null) {
+                user.setPassword(updateUser.getPassword());
             }
-            if (updateUser.getName() != null) {
-                user.setName(updateUser.getName());
+            if (updateUser.getEmail() != null) {
+                user.setEmail(updateUser.getEmail());
+            }
+            if (updateUser.getFirstName() != null) {
+                user.setFirstName(updateUser.getFirstName());
+            }
+            if (updateUser.getLastName() != null) {
+                user.setLastName(updateUser.getLastName());
             }
             return userDao.update(user);
         } catch (Exception e) {
@@ -43,7 +54,7 @@ public class UserService {
 
     public boolean delete(long id) throws DbException {
         try {
-            User user = userDao.getById(id);
+            server.entities.User user = userDao.getById(id);
             if (user != null) {
                 userDao.delete(user);
                 return true;
@@ -65,7 +76,7 @@ public class UserService {
         }
     }
 
-    public User getById(long id) throws DbException {
+    public server.entities.User getById(long id) throws DbException {
         try {
             return userDao.getById(id);
         } catch (Exception e) {
@@ -74,16 +85,25 @@ public class UserService {
         }
     }
 
-    public User getByPhoneNumber(long phoneNumber) throws DbException {
+    public server.entities.User getByEmail(String email) throws DbException {
         try {
-            return userDao.getByPhoneNumber(phoneNumber);
+            return userDao.getByEmail(email);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DbException("Exception in getting user by phone number transaction");
+            throw new DbException("Exception in getting user by email transaction");
         }
     }
 
-    public User getByName(String name) {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        server.entities.User user = userDao.getByName(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new User(user.getLogin(), user.getPassword(), emptyList());
+    }
+
+    public server.entities.User getByName(String name) {
         try {
             return userDao.getByName(name);
         } catch (Exception e) {
