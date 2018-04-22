@@ -1,4 +1,4 @@
-package server.dbException;
+package server.exceptions;
 
 public class DbException extends Exception {
 
