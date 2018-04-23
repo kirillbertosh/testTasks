@@ -32,7 +32,7 @@ public class User implements Serializable {
     private String email;
 
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 100, min = 8)
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

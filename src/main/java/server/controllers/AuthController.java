@@ -24,6 +24,8 @@ import server.payload.SignUpRequest;
 import server.repositories.RoleRepository;
 import server.repositories.UserRepository;
 import server.security.JwtTokenProvider;
+import server.service.UserService;
+import server.validator.Validator;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -32,6 +34,9 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    @Autowired
+    private UserService service;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -67,12 +72,29 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+            return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+            return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (signUpRequest.getPassword().length() < 8) {
+            return new ResponseEntity<>(new ApiResponse(false,
+                    "Passwords should contain minimum 8 chars"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (!Validator.checkPasswordForNumbersAndLetters(signUpRequest.getPassword())) {
+            return new ResponseEntity<>(new ApiResponse(false,
+                    "Password should contain letters and numbers"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (!Validator.password(signUpRequest.getPassword())) {
+            return new ResponseEntity<>(new ApiResponse(false, "Password is incorrect"),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -87,7 +109,9 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        User result = userRepository.save(user);
+        //User result = userRepository.save(user);
+
+        User result = service.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
