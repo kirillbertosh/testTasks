@@ -15,9 +15,11 @@ public class UserPrincipal implements UserDetails {
 
     private Long id;
 
-    private String name;
+    private String firstName;
 
-    private String username;
+    private String lastName;
+
+    private String login;
 
     @JsonIgnore
     private String email;
@@ -27,10 +29,13 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String firstName, String lastName,
+                         String login, String email, String password,
+                         Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.name = name;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -43,8 +48,9 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 user.getId(),
-                user.getName(),
-                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getLogin(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities
@@ -55,8 +61,12 @@ public class UserPrincipal implements UserDetails {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -65,7 +75,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return login;
     }
 
     @Override
@@ -102,13 +112,21 @@ public class UserPrincipal implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         UserPrincipal that = (UserPrincipal) o;
-        return Objects.equals(id, that.id);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (login != null ? !login.equals(that.login) : that.login != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        return authorities != null ? authorities.equals(that.authorities) : that.authorities == null;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id);
+        return Objects.hash(id, firstName, lastName, login, password, email, authorities);
     }
 }

@@ -17,13 +17,18 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
     @NotBlank
     @Size(max = 40)
-    private String name;
+    private String firstName;
+
+    @NotBlank
+    @Size(max = 40)
+    private String lastName;
 
     @NotBlank
     @Size(max = 15)
-    private String username;
+    private String login;
 
     @NaturalId
     @NotBlank
@@ -44,9 +49,10 @@ public class User implements Serializable {
 
     }
 
-    public User(String name, String username, String email, String password) {
-        this.name = name;
-        this.username = username;
+    public User(String firstName, String lastName,String login, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
         this.email = email;
         this.password = password;
     }
@@ -59,20 +65,28 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {

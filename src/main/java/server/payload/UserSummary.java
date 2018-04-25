@@ -3,13 +3,15 @@ package server.payload;
 public class UserSummary {
 
     private Long id;
-    private String username;
-    private String name;
+    private String login;
+    private String firstName;
+    private String lastName;
 
-    public UserSummary(Long id, String username, String name) {
+    public UserSummary(Long id, String login, String firstName, String lastName) {
         this.id = id;
-        this.username = username;
-        this.name = name;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -20,19 +22,27 @@ public class UserSummary {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

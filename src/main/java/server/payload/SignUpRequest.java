@@ -9,11 +9,15 @@ public class SignUpRequest {
 
     @NotBlank
     @Size(min = 4, max = 40)
-    private String name;
+    private String firstName;
+
+    @NotBlank
+    @Size(min = 4, max = 40)
+    private String lastName;
 
     @NotBlank
     @Size(min = 3, max = 15)
-    private String username;
+    private String login;
 
     @NotBlank
     @Size(max = 40)
@@ -24,20 +28,28 @@ public class SignUpRequest {
     @Size(min = 6, max = 20)
     private String password;
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getEmail() {
