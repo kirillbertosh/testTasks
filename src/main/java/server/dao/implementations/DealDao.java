@@ -1,7 +1,7 @@
 package server.dao.implementations;
 
 import server.dao.GenericDao;
-import server.dbException.DbException;
+import server.exceptions.DbException;
 import server.entities.Deal;
 import org.springframework.stereotype.Repository;
 

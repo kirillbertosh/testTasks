@@ -1,7 +1,7 @@
 package server.dao.implementations;
 
 import server.dao.GenericDao;
-import server.dbException.DbException;
+import server.exceptions.DbException;
 import server.entities.User;
 import org.springframework.stereotype.Repository;
 
@@ -78,10 +78,10 @@ public class UserDao implements GenericDao<User, Long> {
         }
     }
 
-    public User getByName(String name) {
+    public User getByName(String username) {
         try {
-            return (User)entityManager.createQuery("from User c where c.name=:name")
-                    .setParameter("name", name)
+            return (User)entityManager.createQuery("select c from User c where c.username=:username")
+                    .setParameter("username", username)
                     .getResultList()
                     .get(0);
         } catch (Exception e) {

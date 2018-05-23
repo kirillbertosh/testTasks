@@ -1,6 +1,6 @@
 package server.dao;
 
-import server.dbException.DbException;
+import server.exceptions.DbException;
 
 import java.io.Serializable;
 import java.util.*;

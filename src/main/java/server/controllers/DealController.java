@@ -1,6 +1,6 @@
 package server.controllers;
 
-import server.dbException.DbException;
+import server.exceptions.DbException;
 import server.entities.Deal;
 import server.entities.User;
 import server.service.DealService;
@@ -38,36 +38,26 @@ public class DealController {
         }
     }
 
-    @PostMapping("/deals")
-    public ResponseEntity<Deal> create(@RequestBody Deal deal) throws DbException {
-        deal = service.create(deal);
-        return new ResponseEntity<>(deal, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/deals/{id}/{user}")
-    public ResponseEntity addUserToDeal(@PathVariable Long id, @RequestBody User user) throws DbException {
-        Deal deal = service.addUserToDeal(id, user);
-        if (deal != null) {
-            return new ResponseEntity<>(deal, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping("/deals/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Deal deal) throws DbException {
-        deal = service.update(id, deal);
-        if (deal != null) {
-            return new ResponseEntity<>(deal, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @DeleteMapping("/deals/{id}")
     public ResponseEntity delete(@PathVariable Long id) throws DbException {
         if(service.delete(id)) {
             return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/deals")
+    public ResponseEntity save(@RequestBody Deal deal) throws DbException{
+        deal = service.save(deal);
+        return new ResponseEntity<>(deal, HttpStatus.OK);
+    }
+
+    @PutMapping("/deals/{id}")
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Deal updateDeal) throws DbException {
+        updateDeal = service.update(id, updateDeal);
+        if (updateDeal != null) {
+            return new ResponseEntity<>(updateDeal, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

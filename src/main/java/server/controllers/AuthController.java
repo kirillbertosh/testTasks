@@ -109,8 +109,6 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        //User result = userRepository.save(user);
-
         User result = service.save(user);
 
         URI location = ServletUriComponentsBuilder

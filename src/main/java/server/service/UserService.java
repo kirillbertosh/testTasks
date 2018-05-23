@@ -1,32 +1,53 @@
 package server.service;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import server.dao.implementations.UserDao;
-import server.dbException.DbException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
-
-import static java.util.Collections.emptyList;
+import server.dao.implementations.UserDao;
+import server.entities.User;
+import server.exceptions.DbException;
+import java.util.List;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService {
+
+    @Autowired
+    private UserDao dao;
 
     @Autowired
     private UserDao userDao;
 
-    public server.entities.User create(server.entities.User user) throws DbException {
+    public User save(User user) {
         try {
-            return userDao.create(user);
-        } catch (Exception e) {
+            User result = dao.create(user);
+            return result;
+        } catch (DbException e) {
             e.printStackTrace();
-            throw new DbException("Exception in creating new user transaction");
+            return null;
+        }
+    }
+
+    public Boolean existsByEmail(String email) {
+        try {
+            User user = dao.getByEmail(email);
+            if (user == null) {
+                return Boolean.FALSE;
+            } else {
+                return Boolean.TRUE;
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Boolean existsByUsername(String username) {
+        User user = dao.getByName(username);
+        if (user == null) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
         }
     }
 
@@ -38,12 +59,6 @@ public class UserService implements UserDetailsService {
             }
             if (updateUser.getEmail() != null) {
                 user.setEmail(updateUser.getEmail());
-            }
-            if (updateUser.getFirstName() != null) {
-                user.setFirstName(updateUser.getFirstName());
-            }
-            if (updateUser.getLastName() != null) {
-                user.setLastName(updateUser.getLastName());
             }
             return userDao.update(user);
         } catch (Exception e) {
@@ -94,14 +109,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        server.entities.User user = userDao.getByName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new User(user.getLogin(), user.getPassword(), emptyList());
-    }
 
     public server.entities.User getByName(String name) {
         try {
